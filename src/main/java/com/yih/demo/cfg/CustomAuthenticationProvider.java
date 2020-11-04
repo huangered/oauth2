@@ -37,7 +37,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         UserDetails ud = userDetailsService.loadUserByUsername(username);
 
         if (passwordEncoder.matches(password, ud.getPassword())) {
-            for (var a :ud.getAuthorities()                    ) {
+            for (var a : ud.getAuthorities()) {
                 log.info("role {}", a.getAuthority());
             }
             return new UsernamePasswordAuthenticationToken(username, password, ud.getAuthorities());

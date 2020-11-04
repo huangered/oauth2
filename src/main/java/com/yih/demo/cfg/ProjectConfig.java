@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Configuration
@@ -37,7 +38,8 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
             c.realmName("test");
             c.authenticationEntryPoint(new CustomEntryPoint());
         });
-        http.authorizeRequests().anyRequest().authenticated();
+        http.addFilterAfter(new CsrfTokenLogger(), CsrfFilter.class)
+                .authorizeRequests().anyRequest().authenticated();
     }
 
     @Autowired
