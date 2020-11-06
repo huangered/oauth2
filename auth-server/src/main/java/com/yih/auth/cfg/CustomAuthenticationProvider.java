@@ -31,19 +31,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = String.valueOf(authentication.getCredentials());
 
         log.info("{} {}", username, password);
+        return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
 
-        UserDetails ud = userDetailsService.loadUserByUsername(username);
-        if (ud == null) {
-            throw new BadCredentialsException("not found");
-        }
-        if (passwordEncoder.matches(password, ud.getPassword())) {
-            for (var a : ud.getAuthorities()) {
-                log.info("role {}", a.getAuthority());
-            }
-            return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
-        } else {
-            throw new BadCredentialsException("Something wrong");
-        }
+//        UserDetails ud = userDetailsService.loadUserByUsername(username);
+//        if (ud == null) {
+//            throw new BadCredentialsException("not found");
+//        }
+//        if (passwordEncoder.matches(password, ud.getPassword())) {
+//            for (var a : ud.getAuthorities()) {
+//                log.info("role {}", a.getAuthority());
+//            }
+//            return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
+//        } else {
+//            throw new BadCredentialsException("Something wrong");
+//        }
     }
 
     @Override

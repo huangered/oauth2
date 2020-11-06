@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -51,7 +52,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
                 //.authorizedGrantTypes("password", "refresh_token")
                 .authorizedGrantTypes("authorization_code", "password", "refresh_token")
                 .scopes("read", "write")
-                .redirectUris("http://localhost:8082/hello")
+                .redirectUris("http://localhost:8080/hello")
                 .and()
                 /*
                 给resource server访问/oauth/check_token
@@ -70,7 +71,9 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() {
-        return new JwtTokenStore(jwtAccessTokenConverter());
+        JwtTokenStore ts = new JwtTokenStore(jwtAccessTokenConverter());
+        DefaultTokenServices s;
+        return ts;
     }
 
     @Bean

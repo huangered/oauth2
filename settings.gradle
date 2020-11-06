@@ -1,2 +1,2 @@
 rootProject.name = 'demo'
-include('auth-server', 'resource-server')
+include('app', 'auth-server', 'resource-server')
