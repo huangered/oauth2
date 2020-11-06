@@ -1,4 +1,4 @@
-package com.yih.resource.cfg;
+package com.yih.app.cfg;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.csrf.CsrfToken;

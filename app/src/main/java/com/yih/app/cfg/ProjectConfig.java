@@ -1,4 +1,4 @@
-package com.yih.resource.cfg;
+package com.yih.app.cfg;
 
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;

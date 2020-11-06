@@ -61,7 +61,7 @@
     <form method="post" action="/oauth/authorize">
 
         <input type="hidden" name="user_oauth_approval" value="true">
-        <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+        <!--<input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>-->
 
         <div th:each="item:${scopes}">
             <label >

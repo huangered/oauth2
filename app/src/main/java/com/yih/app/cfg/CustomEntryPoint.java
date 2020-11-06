@@ -1,4 +1,4 @@
-package com.yih.resource.cfg;
+package com.yih.app.cfg;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

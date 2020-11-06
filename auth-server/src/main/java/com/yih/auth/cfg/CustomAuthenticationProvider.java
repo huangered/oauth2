@@ -1,4 +1,4 @@
-package com.yih.app.cfg;
+package com.yih.auth.cfg;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
 
 @Slf4j
 @Component
@@ -31,12 +33,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         log.info("{} {}", username, password);
 
         UserDetails ud = userDetailsService.loadUserByUsername(username);
-
+        if (ud == null) {
+            throw new BadCredentialsException("not found");
+        }
         if (passwordEncoder.matches(password, ud.getPassword())) {
             for (var a : ud.getAuthorities()) {
                 log.info("role {}", a.getAuthority());
             }
-            return new UsernamePasswordAuthenticationToken(username, password, ud.getAuthorities());
+            return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
         } else {
             throw new BadCredentialsException("Something wrong");
         }
