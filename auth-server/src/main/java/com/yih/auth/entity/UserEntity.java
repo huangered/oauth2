@@ -1,14 +1,18 @@
 package com.yih.auth.entity;
 
-import com.yih.auth.domain.AppUser;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Data
 @Entity
 public class UserEntity {
     @Id
+    @SequenceGenerator(name = "user_entity_id_generator", sequenceName = "user_entity_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "user_entity_id_generator")
     private Long id;
 
     private String username;
@@ -20,7 +24,8 @@ public class UserEntity {
     private boolean accountNonExpired;
     private String telephone;
 
-    public UserEntity(){}
+    public UserEntity() {
+    }
 
     public UserEntity(String username, String encodedPassword) {
         this.username = username;
@@ -28,6 +33,7 @@ public class UserEntity {
         this.enabled = true;
         this.credentialsNonExpired = true;
         this.accountNonLocked = true;
-        this.accountNonExpired = true;;
+        this.accountNonExpired = true;
+        ;
     }
 }

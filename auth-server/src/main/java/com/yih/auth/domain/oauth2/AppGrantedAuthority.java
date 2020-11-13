@@ -1,4 +1,4 @@
-package com.yih.auth.domain;
+package com.yih.auth.domain.oauth2;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

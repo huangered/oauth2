@@ -13,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Slf4j
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -30,26 +28,22 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = String.valueOf(authentication.getCredentials());
 
-        log.info("{} {}", username, password);
-        return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
-
-//        UserDetails ud = userDetailsService.loadUserByUsername(username);
-//        if (ud == null) {
-//            throw new BadCredentialsException("not found");
-//        }
-//        if (passwordEncoder.matches(password, ud.getPassword())) {
-//            for (var a : ud.getAuthorities()) {
-//                log.info("role {}", a.getAuthority());
-//            }
-//            return new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>());
-//        } else {
-//            throw new BadCredentialsException("Something wrong");
-//        }
+        UserDetails ud = userDetailsService.loadUserByUsername(username);
+        if (ud == null) {
+            throw new BadCredentialsException("not found");
+        }
+        if (passwordEncoder.matches(password, ud.getPassword())) {
+            for (var a : ud.getAuthorities()) {
+                log.info("role {}", a.getAuthority());
+            }
+            return new UsernamePasswordAuthenticationToken(username, password, ud.getAuthorities());
+        } else {
+            throw new BadCredentialsException("Something wrong");
+        }
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

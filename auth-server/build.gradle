@@ -18,5 +18,8 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	runtime("org.postgresql:postgresql")
+
+	api project(':swagger2')
+	implementation('org.flywaydb:flyway-core')
 }
 

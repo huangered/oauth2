@@ -1,29 +1,37 @@
 package com.yih.auth.ctl;
 
-import com.yih.auth.domain.AppGrantedAuthority;
-import com.yih.auth.domain.AppScope;
-import com.yih.auth.domain.AppUser;
+import com.yih.auth.domain.user.RegisterUser;
 import com.yih.auth.svc.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
+@Api(description = "the endpoint for user login")
 @Slf4j
 @RestController
 public class AppUserCtl {
     @Autowired
     UserService userService;
 
+    @ApiOperation("register new user")
     @PostMapping("/users")
-    public ResponseEntity<Boolean> create(@RequestBody AppUser appUser) {
-        log.info("create user {}", appUser);
-        appUser.setAuthorities(new ArrayList<>());
-        appUser.getAuthorities().add(new AppGrantedAuthority(AppScope.User.name()));
+    public ResponseEntity<Long> create(@RequestBody RegisterUser appUser) {
         return ResponseEntity.ok(userService.create(appUser));
+    }
+
+    @ApiOperation("check username occupied")
+    @GetMapping("/username")
+    public ResponseEntity<Boolean> isUserNameOccupied(@RequestParam String username) {
+        return ResponseEntity.ok(userService.findByUsername(username).isPresent());
+    }
+
+    @ApiOperation("get user detail")
+    @GetMapping("/users")
+    public ResponseEntity<UserDetails> findUserByName(@RequestParam String username) {
+        return ResponseEntity.ok(userService.findByUsername(username).get());
     }
 }

@@ -1,7 +1,8 @@
 package com.yih.auth.svc.impl;
 
-import com.yih.auth.domain.AppGrantedAuthority;
-import com.yih.auth.domain.AppUser;
+import com.yih.auth.domain.oauth2.AppScope;
+import com.yih.auth.domain.user.AppUser;
+import com.yih.auth.domain.user.RegisterUser;
 import com.yih.auth.entity.AppGrantedAuthorityEntity;
 import com.yih.auth.entity.UserEntity;
 import com.yih.auth.repo.GrantedAuthorityRepo;
@@ -15,11 +16,13 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
 public class UserServiceImpl implements UserService {
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Autowired
     private UserRepo repo;
 
@@ -38,22 +41,22 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
-    @Autowired
-    private PasswordEncoder encoder;
-
+    /**
+     * create a new user
+     *
+     * @param appUser
+     * @return
+     */
     @Transactional
     @Override
-    public boolean create(AppUser appUser) {
+    public long create(RegisterUser appUser) {
         // save user
         UserEntity userEntity = new UserEntity(appUser.getUsername(), encoder.encode(appUser.getPassword()));
 
         repo.save(userEntity);
         // save granted authority
-        List<AppGrantedAuthorityEntity> gas = appUser.getAuthorities()
-                .stream()
-                .map(aga -> new AppGrantedAuthorityEntity(userEntity.getId(), aga.getAuthority()))
-                .collect(Collectors.toList());
-        gaRepo.saveAll(gas);
-        return true;
+        AppGrantedAuthorityEntity entity = new AppGrantedAuthorityEntity(userEntity.getId(), AppScope.User.name());
+        gaRepo.save(entity);
+        return userEntity.getId();
     }
 }

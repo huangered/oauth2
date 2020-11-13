@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -46,6 +45,7 @@
         border: none;
         font-size: 15px;
     }
+
 </style>
 <body style="margin: 0px">
 <div class="title">
@@ -57,16 +57,16 @@
 <div class="container">
     <h3 th:text="${clientId}+' 请求授权，该应用将获取你的以下信息'"></h3>
     <p>昵称，头像和性别</p>
-    授权后表明你已同意 <a  href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
-    <form method="post" action="/oauth/authorize">
+    授权后表明你已同意 <a href="#boot" style="color: #E9686B">OAUTH-BOOT 服务协议</a>
+    <form action="/oauth/authorize" method="post">
 
-        <input type="hidden" name="user_oauth_approval" value="true">
+        <input name="user_oauth_approval" type="hidden" value="true">
         <!--<input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>-->
 
         <div th:each="item:${scopes}">
-            <label >
-                <span th:text="'scope.'+${item}" />
-                <input type="radio" th:name="'scope.'+${item}" value="true" checked="checked"/>
+            <label>
+                <span th:text="'scope.'+${item}"/>
+                <input checked="checked" th:name="'scope.'+${item}" type="radio" value="true"/>
             </label>
         </div>
 

@@ -1,5 +1,6 @@
-package com.yih.auth.domain;
+package com.yih.auth.domain.user;
 
+import com.yih.auth.domain.oauth2.AppGrantedAuthority;
 import com.yih.auth.entity.UserEntity;
 import lombok.Data;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ public class AppUser implements UserDetails {
     private String telephone;
     private List<AppGrantedAuthority> authorities;
 
-    public AppUser(UserEntity userEntity, List<String> authorities){
+    public AppUser(UserEntity userEntity, List<String> authorities) {
         this.id = userEntity.getId();
         this.username = userEntity.getUsername();
         this.password = userEntity.getPassword();
@@ -28,14 +29,15 @@ public class AppUser implements UserDetails {
         this.credentialsNonExpired = userEntity.isCredentialsNonExpired();
         this.accountNonExpired = userEntity.isAccountNonExpired();
         this.accountNonLocked = userEntity.isAccountNonLocked();
-        this.authorities = authorities.stream().map(AppGrantedAuthority::new).collect(Collectors.toList());;
+        this.authorities = authorities.stream().map(AppGrantedAuthority::new).collect(Collectors.toList());
+        ;
     }
 
-    public boolean create(){
+    public boolean create() {
         return true;
     }
 
-    public void update(){
+    public void update() {
 
     }
 }

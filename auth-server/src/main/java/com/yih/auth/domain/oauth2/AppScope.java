@@ -1,4 +1,4 @@
-package com.yih.auth.domain;
+package com.yih.auth.domain.oauth2;
 
 public enum AppScope {
     Admin,

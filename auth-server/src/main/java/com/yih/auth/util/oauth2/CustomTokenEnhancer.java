@@ -1,4 +1,4 @@
-package com.yih.auth.cfg;
+package com.yih.auth.util.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
