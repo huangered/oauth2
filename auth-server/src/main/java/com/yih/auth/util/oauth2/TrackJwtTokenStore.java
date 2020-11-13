@@ -6,14 +6,17 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+/*
+the token store will save each jwt token to db
+ */
 @Slf4j
-public class TestJwtTokenStore extends JwtTokenStore {
+public class TrackJwtTokenStore extends JwtTokenStore {
     /**
      * Create a JwtTokenStore with this token enhancer (should be shared with the DefaultTokenServices if used).
      *
      * @param jwtTokenEnhancer
      */
-    public TestJwtTokenStore(JwtAccessTokenConverter jwtTokenEnhancer) {
+    public TrackJwtTokenStore(JwtAccessTokenConverter jwtTokenEnhancer) {
         super(jwtTokenEnhancer);
     }
 

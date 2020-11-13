@@ -1,7 +1,7 @@
 package com.yih.auth.cfg;
 
-import com.yih.auth.util.oauth2.CustomTokenEnhancer;
-import com.yih.auth.util.oauth2.TestJwtTokenStore;
+import com.yih.auth.util.oauth2.LynxTokenEnhancer;
+import com.yih.auth.util.oauth2.TrackJwtTokenStore;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,7 +41,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         // for jwt
         TokenEnhancerChain chain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancerList = new ArrayList<>();
-        enhancerList.add(new CustomTokenEnhancer());
+        enhancerList.add(new LynxTokenEnhancer());
         enhancerList.add(jwtAccessTokenConverter());
         chain.setTokenEnhancers(enhancerList);
         endpoints.tokenStore(tokenStore())
@@ -80,7 +80,7 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() {
-        TestJwtTokenStore ts = new TestJwtTokenStore(jwtAccessTokenConverter());
+        TrackJwtTokenStore ts = new TrackJwtTokenStore(jwtAccessTokenConverter());
         return ts;
     }
 

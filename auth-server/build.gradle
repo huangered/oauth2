@@ -22,4 +22,3 @@ dependencies {
 	api project(':swagger2')
 	implementation('org.flywaydb:flyway-core')
 }
-

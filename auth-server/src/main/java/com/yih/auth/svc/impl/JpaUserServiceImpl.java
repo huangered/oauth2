@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class UserServiceImpl implements UserService {
+public class JpaUserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder encoder;
 

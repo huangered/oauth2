@@ -3,7 +3,7 @@ package com.yih.app;
 import org.junit.jupiter.api.Test;
 
 //@SpringBootTest
-class DemoApplicationTests {
+class AuthApplicationTests {
 
     @Test
     void contextLoads() {
