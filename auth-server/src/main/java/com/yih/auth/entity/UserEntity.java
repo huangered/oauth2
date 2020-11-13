@@ -1,9 +1,9 @@
 package com.yih.auth.entity;
 
+import com.yih.auth.domain.AppUser;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,4 +19,15 @@ public class UserEntity {
     private boolean accountNonLocked;
     private boolean accountNonExpired;
     private String telephone;
+
+    public UserEntity(){}
+
+    public UserEntity(String username, String encodedPassword) {
+        this.username = username;
+        this.password = encodedPassword;
+        this.enabled = true;
+        this.credentialsNonExpired = true;
+        this.accountNonLocked = true;
+        this.accountNonExpired = true;;
+    }
 }

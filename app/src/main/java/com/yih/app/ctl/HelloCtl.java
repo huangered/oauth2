@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloCtl {
 
     @GetMapping("/hello")
-    public String getHello(@RequestParam String code, @RequestParam String state) {
+    public String getHello(@RequestParam String code, @RequestParam(required = false) String state) {
         log.info("code {}, state {}", code, state);
         String appClientId = "client";
         String appSecret = "secret";
 
-        HttpResponse<JsonNode> dd =   Unirest.post("http://localhost:8081/oauth/token")
+        HttpResponse<JsonNode> dd = Unirest.post("http://localhost:8081/oauth/token")
                 .basicAuth(appClientId, appSecret)
-                .field("code",code)
+                .field("code", code)
                 .field("grant_type", "authorization_code")
                 .field("scope", "read").asJson();
 

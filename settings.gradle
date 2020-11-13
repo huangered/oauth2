@@ -1,2 +1,2 @@
 rootProject.name = 'demo'
-include('app', 'auth-server', 'resource-server')
+include('swagger2', 'app', 'auth-server', 'resource-server')

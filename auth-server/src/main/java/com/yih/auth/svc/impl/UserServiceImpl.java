@@ -9,6 +9,7 @@ import com.yih.auth.repo.UserRepo;
 import com.yih.auth.svc.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -37,11 +38,15 @@ public class UserServiceImpl implements UserService {
         return Optional.empty();
     }
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Transactional
     @Override
     public boolean create(AppUser appUser) {
         // save user
-        UserEntity userEntity = new UserEntity();
+        UserEntity userEntity = new UserEntity(appUser.getUsername(), encoder.encode(appUser.getPassword()));
+
         repo.save(userEntity);
         // save granted authority
         List<AppGrantedAuthorityEntity> gas = appUser.getAuthorities()
