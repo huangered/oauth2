@@ -4,6 +4,7 @@ import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.ModelAndView;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -26,7 +27,7 @@ public class BootGrantController {
         view.addObject("clientId", authorizationRequest.getClientId());
 
         view.addObject("scopes", authorizationRequest.getScope());
-
+        DispatcherServlet d;
         return view;
     }
 }

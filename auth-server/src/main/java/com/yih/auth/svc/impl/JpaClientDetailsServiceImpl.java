@@ -1,5 +1,8 @@
 package com.yih.auth.svc.impl;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.yih.auth.domain.CurrentUser;
 import com.yih.auth.entity.AppClientEntity;
 import com.yih.auth.repo.AppClientRepo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,8 @@ public class JpaClientDetailsServiceImpl implements ClientDetailsService, Client
             bcd.setAuthorizedGrantTypes(Arrays.asList(ac.get().getAuthorizedGrantTypesList().split(",")));
             bcd.setResourceIds(Collections.emptyList());
             bcd.setAuthorities(Collections.emptyList());
+            bcd.setRegisteredRedirectUri(Sets.newHashSet(ac.get().getRegisteredRedirectUris()));
+            bcd.setScope(Lists.newArrayList(ac.get().getScopeList().split(",")));
             return bcd;
         }
         return null;
@@ -38,6 +43,8 @@ public class JpaClientDetailsServiceImpl implements ClientDetailsService, Client
     @Override
     public void addClientDetails(ClientDetails clientDetails) throws ClientAlreadyExistsException {
 
+        AppClientEntity entity = new AppClientEntity(clientDetails, CurrentUser.GetCurrentUser());
+        repo.save(entity);
     }
 
     @Override

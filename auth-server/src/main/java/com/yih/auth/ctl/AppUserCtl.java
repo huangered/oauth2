@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-@Api(description = "the endpoint for user login")
+@Api(description = "the endpoint for user login", tags = "user")
 @Slf4j
 @RestController
 public class AppUserCtl {
@@ -18,19 +18,19 @@ public class AppUserCtl {
     UserService userService;
 
     @ApiOperation("register new user")
-    @PostMapping("/users")
+    @PostMapping("/api/v1/users")
     public ResponseEntity<Long> create(@RequestBody RegisterUser appUser) {
         return ResponseEntity.ok(userService.create(appUser));
     }
 
     @ApiOperation("check username occupied")
-    @GetMapping("/username")
+    @GetMapping("/api/v1/username")
     public ResponseEntity<Boolean> isUserNameOccupied(@RequestParam String username) {
         return ResponseEntity.ok(userService.findByUsername(username).isPresent());
     }
 
     @ApiOperation("get user detail")
-    @GetMapping("/users")
+    @GetMapping("/api/v1/users")
     public ResponseEntity<UserDetails> findUserByName(@RequestParam String username) {
         return ResponseEntity.ok(userService.findByUsername(username).get());
     }

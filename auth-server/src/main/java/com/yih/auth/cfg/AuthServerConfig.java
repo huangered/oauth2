@@ -33,7 +33,10 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     ClientDetailsService jpaClientDetailService;
     @Autowired
     private AuthenticationManager authenticationManager;
-    private String jwtKey = "test";
+    @Autowired
+    private TokenStore tokenStore;
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
@@ -42,31 +45,15 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         TokenEnhancerChain chain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancerList = new ArrayList<>();
         enhancerList.add(new LynxTokenEnhancer());
-        enhancerList.add(jwtAccessTokenConverter());
+        enhancerList.add(jwtAccessTokenConverter);
         chain.setTokenEnhancers(enhancerList);
-        endpoints.tokenStore(tokenStore())
+        endpoints.tokenStore(tokenStore)
                 .tokenEnhancer(chain);
         endpoints.pathMapping("/oauth/confirm_access", "/custom/confirm_access");
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        String appClientId = "client";
-//        String appSecret = encoder.encode("secret");
-//        clients.inMemory()
-//                .withClient(appClientId)
-//                .secret(appSecret)
-//                //.authorizedGrantTypes("password", "refresh_token")
-//                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
-//                .scopes("read", "write")
-//                .redirectUris("http://localhost:8080/hello")
-//                .and()
-//                /*
-//                给resource server访问/oauth/check_token
-//                 */
-//                .withClient("resourceserver")
-//                .secret("resourceserversecret");
-
         clients.withClientDetails(jpaClientDetailService);
     }
 
@@ -78,16 +65,5 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
         security.checkTokenAccess("isAuthenticated()");
     }
 
-    @Bean
-    public TokenStore tokenStore() {
-        TrackJwtTokenStore ts = new TrackJwtTokenStore(jwtAccessTokenConverter());
-        return ts;
-    }
 
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        val converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(jwtKey);
-        return converter;
-    }
 }

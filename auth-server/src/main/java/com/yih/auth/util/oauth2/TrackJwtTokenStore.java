@@ -23,6 +23,6 @@ public class TrackJwtTokenStore extends JwtTokenStore {
     @Override
     public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
         super.storeAccessToken(token, authentication);
-        log.info("{} {}", token, authentication);
+        log.info("store token: {} for {}", token, authentication);
     }
 }

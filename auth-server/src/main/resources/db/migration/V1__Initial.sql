@@ -1,6 +1,15 @@
 CREATE TABLE IF NOT EXISTS app_client_entity
 (
-    id serial NOT NULL,
+    id serial,
+    user_id bigint,
+    client_id text,
+    client_secret text,
+    scope_list text,
+    authorized_grant_types_list text,
+    registered_redirect_uris text,
+    access_token_validity_seconds int,
+    refresh_token_validity_seconds int,
+    auto_approve boolean,
     CONSTRAINT app_client_entity_pkey PRIMARY KEY (id)
 );
 

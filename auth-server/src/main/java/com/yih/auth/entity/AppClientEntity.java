@@ -1,6 +1,7 @@
 package com.yih.auth.entity;
 
 import lombok.Data;
+import org.springframework.security.oauth2.provider.ClientDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ public class AppClientEntity {
     @GeneratedValue(generator = "app_client_entity_id_generator")
     private Long id;
 
+    private Long userId;
+
     private String clientId;
 
     private String clientSecret;
@@ -23,7 +26,7 @@ public class AppClientEntity {
 
     private String authorizedGrantTypesList;
 
-    private String registeredRedirectUrisList;
+    private String registeredRedirectUris;
 
     private Integer accessTokenValiditySeconds;
 
@@ -31,8 +34,17 @@ public class AppClientEntity {
 
     private boolean autoApprove;
 
-    public AppClientEntity() {
+    public AppClientEntity(){}
+
+    public AppClientEntity(ClientDetails clientDetails, Long userId) {
+        this.userId = userId;
+        this.clientId = clientDetails.getClientId();
+        this.clientSecret = clientDetails.getClientSecret();
+        this.scopeList = String.join(",",  clientDetails.getScope());
+        this.authorizedGrantTypesList = String.join(",",clientDetails.getAuthorizedGrantTypes());
+        this.registeredRedirectUris = clientDetails.getRegisteredRedirectUri().stream().findFirst().get();
+        this.accessTokenValiditySeconds = clientDetails.getAccessTokenValiditySeconds();
+        this.refreshTokenValiditySeconds = clientDetails.getRefreshTokenValiditySeconds();
+        this.autoApprove = false;
     }
-
-
 }
