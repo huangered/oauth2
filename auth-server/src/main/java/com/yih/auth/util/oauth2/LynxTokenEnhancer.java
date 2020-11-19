@@ -14,9 +14,9 @@ import java.util.Map;
 public class LynxTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        val token = new DefaultOAuth2AccessToken(accessToken);
+        DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(accessToken);
         Map<String, Object> info = new HashMap<>();
-        info.put("company", "lynx");
+        info.put("application-code", "lynx");
         token.setAdditionalInformation(info);
         return token;
     }

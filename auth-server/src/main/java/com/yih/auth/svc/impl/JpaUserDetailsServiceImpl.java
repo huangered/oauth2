@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @Component
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
@@ -18,6 +19,6 @@ public class JpaUserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserDetails> userOp = userService.findByUsername(username);
-        return userOp.orElse(null);
+        return userOp.orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

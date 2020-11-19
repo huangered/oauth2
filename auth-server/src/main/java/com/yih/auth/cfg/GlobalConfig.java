@@ -1,6 +1,6 @@
 package com.yih.auth.cfg;
 
-import com.yih.auth.util.oauth2.TrackJwtTokenStore;
+import com.yih.auth.util.oauth2.LynxJwtTokenStore;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class GlobalConfig {
 
     @Bean
     public TokenStore tokenStore() {
-        TrackJwtTokenStore ts = new TrackJwtTokenStore(jwtAccessTokenConverter());
+        LynxJwtTokenStore ts = new LynxJwtTokenStore(jwtAccessTokenConverter());
         return ts;
     }
 

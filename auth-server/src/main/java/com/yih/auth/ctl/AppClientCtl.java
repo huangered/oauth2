@@ -2,6 +2,7 @@ package com.yih.auth.ctl;
 
 import com.google.common.collect.Sets;
 import com.yih.auth.domain.oauth2.AppClient;
+import com.yih.auth.svc.LynxClientRegistrationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -19,12 +20,14 @@ import java.util.UUID;
 @RestController
 public class AppClientCtl {
     @Autowired
-    ClientRegistrationService service;
-@Autowired
+    LynxClientRegistrationService service;
+
+    @Autowired
     PasswordEncoder encoder;
     @ApiOperation("create new Oauth2 client id")
-    @PostMapping("/api/v1/appclients")
-    public ResponseEntity<Boolean> create(@RequestBody ClientRequest appClient) {
+    @PostMapping("/api/v1/users/{userId}/appclients")
+    public ResponseEntity<Boolean> create(@PathVariable Long userId,
+                                          @RequestBody ClientRequest appClient) {
         AppClient client = new AppClient();
         client.setClientName(appClient.getName());
         client.setRedirectUri(appClient.getUrl());
@@ -35,19 +38,20 @@ public class AppClientCtl {
         client.setScope(Sets.newHashSet("read"));
         client.setDescription("test");
         client.setAuthorizedGrantTypes(Sets.newHashSet("authorization_code","password","refresh_token"));
-        service.addClientDetails(client);
+        service.addClientDetails(userId, client);
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
     @ApiOperation("remove new Oauth2 client id")
-    @DeleteMapping("/api/v1/appclients")
-    public ResponseEntity<Boolean> remove(@RequestParam String clientName) {
-
+    @DeleteMapping("/api/v1/users/{userId}/appclients")
+    public ResponseEntity<Boolean> remove(@PathVariable Long userId,
+                                          @RequestParam String clientName) {
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
     @Data
     public static class ClientRequest {
+        private Long userId;
         private String name;
         private String url;
 

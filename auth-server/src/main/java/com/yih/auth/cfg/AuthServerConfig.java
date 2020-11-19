@@ -1,11 +1,8 @@
 package com.yih.auth.cfg;
 
 import com.yih.auth.util.oauth2.LynxTokenEnhancer;
-import com.yih.auth.util.oauth2.TrackJwtTokenStore;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;

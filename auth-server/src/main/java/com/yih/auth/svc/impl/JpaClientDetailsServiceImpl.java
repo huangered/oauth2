@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.yih.auth.domain.CurrentUser;
 import com.yih.auth.entity.AppClientEntity;
 import com.yih.auth.repo.AppClientRepo;
+import com.yih.auth.svc.LynxClientRegistrationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.*;
@@ -15,7 +16,7 @@ import java.util.*;
 
 @Slf4j
 @Component("JpaClientDetailsService")
-public class JpaClientDetailsServiceImpl implements ClientDetailsService, ClientRegistrationService {
+public class JpaClientDetailsServiceImpl implements ClientDetailsService, LynxClientRegistrationService {
     @Autowired
     AppClientRepo repo;
 
@@ -37,33 +38,33 @@ public class JpaClientDetailsServiceImpl implements ClientDetailsService, Client
             bcd.setScope(Lists.newArrayList(ac.get().getScopeList().split(",")));
             return bcd;
         }
-        return null;
+        throw new ClientRegistrationException("client id not found");
     }
 
     @Override
-    public void addClientDetails(ClientDetails clientDetails) throws ClientAlreadyExistsException {
+    public void addClientDetails(Long userId, ClientDetails clientDetails) throws ClientAlreadyExistsException {
 
-        AppClientEntity entity = new AppClientEntity(clientDetails, CurrentUser.GetCurrentUser());
+        AppClientEntity entity = new AppClientEntity(clientDetails, userId);
         repo.save(entity);
     }
 
     @Override
-    public void updateClientDetails(ClientDetails clientDetails) throws NoSuchClientException {
+    public void updateClientDetails(Long userId, ClientDetails clientDetails) throws NoSuchClientException {
 
     }
 
     @Override
-    public void updateClientSecret(String clientId, String secret) throws NoSuchClientException {
+    public void updateClientSecret(Long userId, String clientId, String secret) throws NoSuchClientException {
 
     }
 
     @Override
-    public void removeClientDetails(String clientId) throws NoSuchClientException {
+    public void removeClientDetails(Long userId, String clientId) throws NoSuchClientException {
 
     }
 
     @Override
-    public List<ClientDetails> listClientDetails() {
+    public List<ClientDetails> listClientDetails(Long userId) {
         return null;
     }
 }
