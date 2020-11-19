@@ -64,6 +64,4 @@ public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.checkTokenAccess("isAuthenticated()");
     }
-
-
 }

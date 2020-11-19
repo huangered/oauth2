@@ -6,7 +6,11 @@
 </head>
 <body>
 <div>
+    <h1>Login please</h1>
     <form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
+        <div th:if="${param.error}" class="alert alert-error">
+            Invalid username and password.
+        </div>
         <p>
             E-mail: <input type="text" name="username" required />
         </p>
