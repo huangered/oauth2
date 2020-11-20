@@ -1,10 +1,10 @@
 package com.yih.auth.ctl;
 
 import com.yih.auth.domain.user.AppUser;
-import com.yih.auth.domain.user.RegisterUser;
 import com.yih.auth.svc.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +37,21 @@ public class AppUserCtl {
     @GetMapping("/users")
     public ResponseEntity<UserDetails> findUserByName(@RequestParam String username) {
         return ResponseEntity.ok(userService.findByUsername(username).get());
+    }
+
+    @ApiOperation("update user password")
+    @PutMapping("/users/{userId}/password")
+    public ResponseEntity<String> updatePassword(@PathVariable Long userId,
+                                                 @RequestParam String password) {
+        AppUser user = AppUser.findById(userId);
+        user.updatePassword(password);
+        return ResponseEntity.ok("ok");
+    }
+
+
+    @Data
+    public static class RegisterUser {
+        private String username;
+        private String password;
     }
 }

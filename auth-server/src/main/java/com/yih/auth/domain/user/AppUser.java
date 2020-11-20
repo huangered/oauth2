@@ -48,12 +48,23 @@ public class AppUser implements UserDetails {
         this.password = password;
     }
 
+    public static AppUser findById(Long userId) {
+        AppUser user = new AppUser();
+        user = user.userService.findById(userId);
+        return user;
+    }
+
     public long create() {
         id = userService.create(username, password);
         return id;
     }
 
-    public void update() {
+    public void updatePassword(String password) {
+        this.password = password;
+        userService.updatePassword(password);
+    }
 
+    public void remove(){
+        userService.remove(id);
     }
 }

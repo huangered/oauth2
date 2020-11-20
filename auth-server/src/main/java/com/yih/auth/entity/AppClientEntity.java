@@ -3,10 +3,7 @@ package com.yih.auth.entity;
 import lombok.Data;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -18,6 +15,7 @@ public class AppClientEntity {
 
     private Long userId;
 
+    @Column(unique = true)
     private String clientId;
 
     private String clientSecret;

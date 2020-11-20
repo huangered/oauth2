@@ -7,12 +7,13 @@ import com.yih.auth.entity.UserEntity;
 import com.yih.auth.repo.GrantedAuthorityRepo;
 import com.yih.auth.repo.UserRepo;
 import com.yih.auth.svc.UserService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,5 +59,24 @@ public class JpaUserServiceImpl implements UserService {
         AppGrantedAuthorityEntity entity = new AppGrantedAuthorityEntity(userEntity.getId(), AppScope.User.name());
         gaRepo.save(entity);
         return userEntity.getId();
+    }
+
+    @Transactional
+    @Override
+    public void remove(Long id) {
+        repo.deleteById(id);
+        // remove other entity;
+        gaRepo.deleteByUserId(id);
+    }
+
+    @Override
+    public void updatePassword(String password) {
+
+    }
+
+    @Override
+    public AppUser findById(Long userId) {
+        val user = repo.findById(userId);
+        return user.map(userEntity -> new AppUser(userEntity, null)).orElse(null);
     }
 }

@@ -23,11 +23,9 @@ public class BootGrantController {
 
         ModelAndView view = new ModelAndView();
         view.setViewName("grant");
-
         view.addObject("clientId", authorizationRequest.getClientId());
-
         view.addObject("scopes", authorizationRequest.getScope());
-        DispatcherServlet d;
+
         return view;
     }
 }

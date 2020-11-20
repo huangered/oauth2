@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface GrantedAuthorityRepo extends JpaRepository<AppGrantedAuthorityEntity, Long> {
     List<AppGrantedAuthorityEntity> findByUserId(Long userId);
+
+    void deleteByUserId(Long userId);
 }
