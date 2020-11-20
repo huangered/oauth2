@@ -2,7 +2,6 @@ package com.yih.auth.svc.impl;
 
 import com.yih.auth.domain.oauth2.AppScope;
 import com.yih.auth.domain.user.AppUser;
-import com.yih.auth.domain.user.RegisterUser;
 import com.yih.auth.entity.AppGrantedAuthorityEntity;
 import com.yih.auth.entity.UserEntity;
 import com.yih.auth.repo.GrantedAuthorityRepo;
@@ -44,14 +43,15 @@ public class JpaUserServiceImpl implements UserService {
     /**
      * create a new user
      *
-     * @param appUser
+     * @param username
+     * @param password
      * @return
      */
     @Transactional
     @Override
-    public long create(RegisterUser appUser) {
+    public long create(String username, String password) {
         // save user
-        UserEntity userEntity = new UserEntity(appUser.getUsername(), encoder.encode(appUser.getPassword()));
+        UserEntity userEntity = new UserEntity(username, encoder.encode(password));
 
         repo.save(userEntity);
         // save granted authority

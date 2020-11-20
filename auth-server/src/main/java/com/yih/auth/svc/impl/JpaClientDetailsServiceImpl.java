@@ -2,7 +2,7 @@ package com.yih.auth.svc.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.yih.auth.domain.CurrentUser;
+import com.yih.auth.domain.oauth2.AppClient;
 import com.yih.auth.entity.AppClientEntity;
 import com.yih.auth.repo.AppClientRepo;
 import com.yih.auth.svc.LynxClientRegistrationService;
@@ -49,13 +49,13 @@ public class JpaClientDetailsServiceImpl implements ClientDetailsService, LynxCl
     }
 
     @Override
-    public void updateClientDetails(Long userId, ClientDetails clientDetails) throws NoSuchClientException {
-
+    public AppClient updateClientDetails(Long userId, ClientDetails clientDetails) throws NoSuchClientException {
+        return null;
     }
 
     @Override
-    public void updateClientSecret(Long userId, String clientId, String secret) throws NoSuchClientException {
-
+    public AppClient updateClientSecret(Long userId, String clientId, String secret) throws NoSuchClientException {
+        return null;
     }
 
     @Override

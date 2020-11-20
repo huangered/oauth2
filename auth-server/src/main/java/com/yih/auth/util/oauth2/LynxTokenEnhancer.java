@@ -1,7 +1,6 @@
 package com.yih.auth.util.oauth2;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;

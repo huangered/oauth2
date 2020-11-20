@@ -9,23 +9,20 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientRegistrationService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashSet;
-import java.util.UUID;
 
 @Api(description = "the endpoint for Oauth2 client id", tags = "user")
 @RestController
+@RequestMapping("/api/v1")
 public class AppClientCtl {
     @Autowired
     LynxClientRegistrationService service;
 
     @Autowired
     PasswordEncoder encoder;
+
     @ApiOperation("create new Oauth2 client id")
-    @PostMapping("/api/v1/users/{userId}/appclients")
+    @PostMapping("/users/{userId}/appclients")
     public ResponseEntity<Boolean> create(@PathVariable Long userId,
                                           @RequestBody ClientRequest appClient) {
         AppClient client = new AppClient();
@@ -37,15 +34,23 @@ public class AppClientCtl {
         client.setClientSecret(encoder.encode("test"));
         client.setScope(Sets.newHashSet("read"));
         client.setDescription("test");
-        client.setAuthorizedGrantTypes(Sets.newHashSet("authorization_code","password","refresh_token"));
+        client.setAuthorizedGrantTypes(Sets.newHashSet("authorization_code", "password", "refresh_token"));
         service.addClientDetails(userId, client);
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
+    @PatchMapping("/users/{userId}/appclients")
+    public ResponseEntity<AppClient> patchSecret(@PathVariable Long userId,
+                                                 @RequestParam PatchRequest patchRequest) {
+        AppClient client = service.updateClientSecret(userId, patchRequest.getClientId(), patchRequest.getClientSecret());
+        return ResponseEntity.ok(client);
+    }
+
     @ApiOperation("remove new Oauth2 client id")
-    @DeleteMapping("/api/v1/users/{userId}/appclients")
+    @DeleteMapping("/users/{userId}/appclients")
     public ResponseEntity<Boolean> remove(@PathVariable Long userId,
-                                          @RequestParam String clientName) {
+                                          @RequestParam String clientId) {
+        service.removeClientDetails(userId, clientId);
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
@@ -55,7 +60,17 @@ public class AppClientCtl {
         private String name;
         private String url;
 
-        public ClientRequest(){
+        public ClientRequest() {
+
+        }
+    }
+
+    @Data
+    public static class PatchRequest {
+        private String clientSecret;
+        private String clientId;
+
+        public PatchRequest() {
 
         }
     }

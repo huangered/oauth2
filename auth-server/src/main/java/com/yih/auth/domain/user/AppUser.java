@@ -2,12 +2,16 @@ package com.yih.auth.domain.user;
 
 import com.yih.auth.domain.oauth2.AppGrantedAuthority;
 import com.yih.auth.entity.UserEntity;
+import com.yih.auth.svc.UserService;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Configurable
 @Data
 public class AppUser implements UserDetails {
 
@@ -21,6 +25,13 @@ public class AppUser implements UserDetails {
     private String telephone;
     private List<AppGrantedAuthority> authorities;
 
+    @Autowired
+    private UserService userService;
+
+    public AppUser() {
+
+    }
+
     public AppUser(UserEntity userEntity, List<String> authorities) {
         this.id = userEntity.getId();
         this.username = userEntity.getUsername();
@@ -30,11 +41,16 @@ public class AppUser implements UserDetails {
         this.accountNonExpired = userEntity.isAccountNonExpired();
         this.accountNonLocked = userEntity.isAccountNonLocked();
         this.authorities = authorities.stream().map(AppGrantedAuthority::new).collect(Collectors.toList());
-        ;
     }
 
-    public boolean create() {
-        return true;
+    public AppUser(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public long create() {
+        id = userService.create(username, password);
+        return id;
     }
 
     public void update() {

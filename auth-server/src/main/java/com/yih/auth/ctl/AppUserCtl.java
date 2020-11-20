@@ -1,5 +1,6 @@
 package com.yih.auth.ctl;
 
+import com.yih.auth.domain.user.AppUser;
 import com.yih.auth.domain.user.RegisterUser;
 import com.yih.auth.svc.UserService;
 import io.swagger.annotations.Api;
@@ -13,24 +14,27 @@ import org.springframework.web.bind.annotation.*;
 @Api(description = "the endpoint for user login", tags = "user")
 @Slf4j
 @RestController
+@RequestMapping("/api/v1")
 public class AppUserCtl {
     @Autowired
     UserService userService;
 
     @ApiOperation("register new user")
-    @PostMapping("/api/v1/users")
+    @PostMapping("/users")
     public ResponseEntity<Long> create(@RequestBody RegisterUser appUser) {
-        return ResponseEntity.ok(userService.create(appUser));
+        AppUser client = new AppUser(appUser.getUsername(), appUser.getPassword());
+
+        return ResponseEntity.ok(client.create());
     }
 
     @ApiOperation("check username occupied")
-    @GetMapping("/api/v1/username")
+    @GetMapping("/username")
     public ResponseEntity<Boolean> isUserNameOccupied(@RequestParam String username) {
         return ResponseEntity.ok(userService.findByUsername(username).isPresent());
     }
 
     @ApiOperation("get user detail")
-    @GetMapping("/api/v1/users")
+    @GetMapping("/users")
     public ResponseEntity<UserDetails> findUserByName(@RequestParam String username) {
         return ResponseEntity.ok(userService.findByUsername(username).get());
     }

@@ -34,14 +34,15 @@ public class AppClientEntity {
 
     private boolean autoApprove;
 
-    public AppClientEntity(){}
+    public AppClientEntity() {
+    }
 
     public AppClientEntity(ClientDetails clientDetails, Long userId) {
         this.userId = userId;
         this.clientId = clientDetails.getClientId();
         this.clientSecret = clientDetails.getClientSecret();
-        this.scopeList = String.join(",",  clientDetails.getScope());
-        this.authorizedGrantTypesList = String.join(",",clientDetails.getAuthorizedGrantTypes());
+        this.scopeList = String.join(",", clientDetails.getScope());
+        this.authorizedGrantTypesList = String.join(",", clientDetails.getAuthorizedGrantTypes());
         this.registeredRedirectUris = clientDetails.getRegisteredRedirectUri().stream().findFirst().get();
         this.accessTokenValiditySeconds = clientDetails.getAccessTokenValiditySeconds();
         this.refreshTokenValiditySeconds = clientDetails.getRefreshTokenValiditySeconds();

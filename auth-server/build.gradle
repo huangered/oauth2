@@ -9,6 +9,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
 	compileOnly 'org.projectlombok:lombok'
@@ -22,4 +23,25 @@ dependencies {
 
 	api project(':swagger2')
 	implementation('org.flywaydb:flyway-core')
+
+	// aspectj wearer
+	runtimeOnly "org.aspectj:aspectjweaver:1.9.6"
+	runtimeOnly "org.springframework:spring-instrument"
+}
+
+//跑 test 必须要加下以下语句
+test {
+	def  aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
+	def  spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
+	jvmArgs = ["-javaagent:${spring_instrument}",
+			   "-javaagent:${aspectjweaver}"
+	]
+}
+//跑 bootRun 必须要加下以下语句
+bootRun {
+	def  aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
+	def  spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
+	jvmArgs = [ "-javaagent:${spring_instrument}"
+				, "-javaagent:${aspectjweaver}"
+	]
 }

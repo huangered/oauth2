@@ -1,0 +1,8 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+    <weaver options="-Xreweavable -verbose -showWeaveInfo">
+        <!-- only weave classes with @Configurable interface -->
+        <include within="@org.springframework.beans.factory.annotation.Configurable *" />
+<!--        <include within="com.yih.auth.domain.user.*" />-->
+    </weaver>
+</aspectj>

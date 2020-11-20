@@ -1,6 +1,5 @@
 package com.yih.auth.svc;
 
-import com.yih.auth.domain.user.RegisterUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
@@ -11,8 +10,7 @@ public interface UserService {
     /**
      * create new user
      *
-     * @param appUser
      * @return
      */
-    long create(RegisterUser appUser);
+    long create(String username, String password);
 }
