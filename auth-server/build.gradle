@@ -36,6 +36,9 @@ test {
 	jvmArgs = ["-javaagent:${spring_instrument}",
 			   "-javaagent:${aspectjweaver}"
 	]
+
+	systemProperty 'spring.profiles.active', 'DEV'
+
 }
 //跑 bootRun 必须要加下以下语句
 bootRun {
