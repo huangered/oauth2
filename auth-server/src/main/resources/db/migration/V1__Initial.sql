@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS user_entity
     CONSTRAINT user_entity_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS app_client_entity2
+CREATE TABLE IF NOT EXISTS app_client_entity
 (
     id serial,
     user_id bigint,
