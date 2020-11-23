@@ -4,7 +4,7 @@ begin
 -- add root user
 insert into auth.users(
 	account_non_expired, account_non_locked, credentials_non_expired, enabled, password, telephone, username)
-	values (true, true, true, true, '','12345678','root') returning id into user_id;
+	values (true, true, true, true, '$2a$10$ZAe.OdsJShS1tqw/zQ7WGekkCCYt4akBP4ES8xhhNrk2X.8W43YL6','12345678','root') returning id into user_id;
 
 -- add root user first oauth2 credential
 

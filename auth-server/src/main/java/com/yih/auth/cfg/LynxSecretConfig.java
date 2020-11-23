@@ -31,4 +31,9 @@ public class LynxSecretConfig {
         converter.setSigningKey("test");
         return converter;
     }
+
+    public static void main(String[] argc){
+        BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+        System.out.println(bpe.encode("12345678"));
+    }
 }
