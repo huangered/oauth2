@@ -33,21 +33,22 @@ dependencies {
 
 //跑 test 必须要加下以下语句
 test {
-	def  aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
-	def  spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
-	jvmArgs = ["-javaagent:${spring_instrument}",
-			   "-javaagent:${aspectjweaver}"
+	def aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
+	def spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
+	jvmArgs = [ "-javaagent:${spring_instrument}",
+			    "-javaagent:${aspectjweaver}"
 	]
 }
 //跑 bootRun 必须要加下以下语句
 bootRun {
-	def  aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
-	def  spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
-	jvmArgs = [ "-javaagent:${spring_instrument}"
-				, "-javaagent:${aspectjweaver}"
+	def aspectjweaver = classpath.find { it.name.contains("aspectjweaver") }.absolutePath
+	def spring_instrument = classpath.find { it.name.contains("spring-instrument") }.absolutePath
+	jvmArgs = [ "-javaagent:${spring_instrument}",
+				"-javaagent:${aspectjweaver}"
 	]
 }
 
+// 复制 agent jar 包到 libs 目录
 task copyagentjar {
 	dependsOn 'build'
 	def dest = buildDir.absolutePath + "\\libs"
