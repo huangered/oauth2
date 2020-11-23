@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS user_entity
+CREATE TABLE IF NOT EXISTS auth.users
 (
     id serial,
     account_non_expired boolean NOT NULL,
@@ -8,13 +8,16 @@ CREATE TABLE IF NOT EXISTS user_entity
     password text NOT NULL,
     telephone text,
     username text NOT NULL,
-    CONSTRAINT user_entity_pkey PRIMARY KEY (id)
+    CONSTRAINT users_pkey PRIMARY KEY (id),
+    unique(username)
 );
 
-CREATE TABLE IF NOT EXISTS app_client_entity
+CREATE TABLE IF NOT EXISTS auth.oauth2_client
 (
     id serial,
     user_id bigint,
+    client_name text,
+    description text,
     client_id text,
     client_secret text,
     scope_list text,
@@ -23,16 +26,17 @@ CREATE TABLE IF NOT EXISTS app_client_entity
     access_token_validity_seconds int,
     refresh_token_validity_seconds int,
     auto_approve boolean,
-    CONSTRAINT app_client_entity_pkey PRIMARY KEY (id),
-    CONSTRAINT app_client_entity_fkey FOREIGN KEY (user_id) REFERENCES user_entity (id)
+    CONSTRAINT app_client_pkey PRIMARY KEY (id),
+    CONSTRAINT app_client_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id),
+    unique(user_id, client_name)
 );
 
-CREATE TABLE IF NOT EXISTS app_granted_authority_entity
+CREATE TABLE IF NOT EXISTS auth.oauth2_granted_authority
 (
     id serial,
     authority text,
     user_id bigint,
-    CONSTRAINT app_granted_authority_entity_pkey PRIMARY KEY (id),
-    CONSTRAINT app_granted_authority_entity_fkey FOREIGN KEY (user_id) REFERENCES user_entity (id)
+    CONSTRAINT app_granted_authority_pkey PRIMARY KEY (id),
+    CONSTRAINT app_granted_authority_fkey FOREIGN KEY (user_id) REFERENCES auth.users (id)
 );
 

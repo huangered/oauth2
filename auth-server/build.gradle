@@ -1,3 +1,6 @@
+plugins {
+	id "org.flywaydb.flyway" version "7.2.1"
+}
 dependencyManagement {
 	imports {
 		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR8'
@@ -24,7 +27,7 @@ dependencies {
 	runtime("org.postgresql:postgresql")
 
 	api project(':swagger2')
-	implementation('org.flywaydb:flyway-core')
+	//implementation('org.flywaydb:flyway-core')
 
 	// aspectj wearer
 	runtimeOnly "org.aspectj:aspectjweaver:1.9.6"
@@ -53,14 +56,22 @@ task copyagentjar {
 	dependsOn 'build'
 	def dest = buildDir.absolutePath + "\\libs"
 	println(dest)
-	def aspectjweaver = configurations.runtimeOnly.resolve().find { it.name.contains("aspectjweaver") }.absolutePath
+	def aspectj_weaver = configurations.runtimeOnly.resolve().find { it.name.contains("aspectjweaver") }.absolutePath
 	def spring_instrument = configurations.runtimeOnly.resolve().find { it.name.contains("spring-instrument") }.absolutePath
 	copy {
-		from aspectjweaver
+		from aspectj_weaver
 		into dest
 	}
 	copy {
 		from spring_instrument
 		into dest
 	}
+}
+
+flyway {
+	url = 'jdbc:postgresql://10.58.248.133:5432/pethua01'
+	createSchemas = false
+	schemas = ['auth']
+	user = 'pethua01'
+	password = 'pethua01'
 }

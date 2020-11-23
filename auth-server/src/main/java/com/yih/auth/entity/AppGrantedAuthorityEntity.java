@@ -2,17 +2,15 @@ package com.yih.auth.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
+@Table(name = "oauth2_granted_authority",schema = "auth")
 @Data
 @Entity
 public class AppGrantedAuthorityEntity {
     @Id
-    @SequenceGenerator(name = "app_granted_authority_entity_id_generator", sequenceName = "app_granted_authority_entity_id_seq", allocationSize = 1)
-    @GeneratedValue(generator = "app_granted_authority_entity_id_generator")
+    @SequenceGenerator(name = "app_granted_authority_id_generator", sequenceName = "app_granted_authority_id_seq", allocationSize = 1)
+    @GeneratedValue(generator = "app_granted_authority_id_generator")
     private Long id;
     private Long userId;
     private String authority;
