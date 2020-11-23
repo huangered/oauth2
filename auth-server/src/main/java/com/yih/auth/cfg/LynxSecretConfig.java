@@ -9,8 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
+/**
+ * JWT token 和 Encoder 相关 bean
+ */
 @Configuration
-public class GlobalConfig {
+public class LynxSecretConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -7,13 +7,13 @@ import org.springframework.security.oauth2.provider.NoSuchClientException;
 
 import java.util.List;
 
-public interface LynxClientRegistrationService {
+public interface LynxOauth2ClientService {
 
     void addClientDetails(Long userId, ClientDetails clientDetails) throws ClientAlreadyExistsException;
 
     AppClient updateClientDetails(Long userId, ClientDetails clientDetails) throws NoSuchClientException;
 
-    AppClient updateClientSecret(Long userId, String clientId, String secret) throws NoSuchClientException;
+    AppClient updateClientSecret(Long userId, String clientName) throws NoSuchClientException;
 
     void removeClientDetails(Long userId, String clientId) throws NoSuchClientException;
 

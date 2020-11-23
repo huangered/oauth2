@@ -22,7 +22,7 @@ import java.util.List;
 
 @Configuration
 @EnableAuthorizationServer
-public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+public class LynxAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     PasswordEncoder encoder;
     @Autowired

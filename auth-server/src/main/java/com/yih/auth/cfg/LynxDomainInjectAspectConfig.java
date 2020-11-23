@@ -7,6 +7,6 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @Configuration
 @EnableSpringConfigured
 @EnableLoadTimeWeaving
-public class DomainInjectAspectConfig {
+public class LynxDomainInjectAspectConfig {
 
 }

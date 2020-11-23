@@ -4,8 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.yih.auth.domain.oauth2.AppClient;
 import com.yih.auth.entity.AppClientEntity;
+import com.yih.auth.mapper.LynxClientMapper;
 import com.yih.auth.repo.AppClientRepo;
-import com.yih.auth.svc.LynxClientRegistrationService;
+import com.yih.auth.svc.LynxOauth2ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.*;
@@ -16,7 +17,7 @@ import java.util.*;
 
 @Slf4j
 @Component("JpaClientDetailsService")
-public class JpaClientDetailsServiceImpl implements ClientDetailsService, LynxClientRegistrationService {
+public class JpaOauth2ClientDetailsServiceImpl implements ClientDetailsService, LynxOauth2ClientService {
     @Autowired
     AppClientRepo repo;
 
@@ -54,8 +55,16 @@ public class JpaClientDetailsServiceImpl implements ClientDetailsService, LynxCl
     }
 
     @Override
-    public AppClient updateClientSecret(Long userId, String clientId, String secret) throws NoSuchClientException {
-        return null;
+    public AppClient updateClientSecret(Long userId, String clientName) throws NoSuchClientException {
+        Optional<AppClientEntity> entity = repo.findByUserIdAndClientName(userId, clientName);
+        if (entity.isPresent()) {
+            entity.get().setClientId(UUID.randomUUID().toString());
+            entity.get().setClientSecret(UUID.randomUUID().toString());
+            AppClientEntity re = repo.save(entity.get());
+            return LynxClientMapper.instance.entityToDomain(re);
+        } else {
+            throw new NoSuchClientException(clientName);
+        }
     }
 
     @Override

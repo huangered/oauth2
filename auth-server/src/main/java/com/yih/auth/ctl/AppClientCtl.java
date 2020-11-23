@@ -2,9 +2,10 @@ package com.yih.auth.ctl;
 
 import com.google.common.collect.Sets;
 import com.yih.auth.domain.oauth2.AppClient;
-import com.yih.auth.svc.LynxClientRegistrationService;
+import com.yih.auth.svc.LynxOauth2ClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class AppClientCtl {
     @Autowired
-    LynxClientRegistrationService service;
+    LynxOauth2ClientService service;
 
     @Autowired
     PasswordEncoder encoder;
@@ -39,11 +40,11 @@ public class AppClientCtl {
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
-    @PatchMapping("/users/{userId}/appclients")
-    public ResponseEntity<AppClient> patchSecret(@PathVariable Long userId,
-                                                 @RequestParam PatchRequest patchRequest) {
-        AppClient client = service.updateClientSecret(userId, patchRequest.getClientId(), patchRequest.getClientSecret());
-        return ResponseEntity.ok(client);
+    @PatchMapping("/users/{userId}/appclients/{clientName}")
+    public ResponseEntity<PatchResponse> patchSecret(@PathVariable Long userId,
+                                                     @PathVariable String clientName) {
+        AppClient client = service.updateClientSecret(userId, clientName);
+        return ResponseEntity.ok(PatchResponse.builder().clientId(client.getClientId()).clientSecret(client.getClientSecret()).build());
     }
 
     @ApiOperation("remove new Oauth2 client id")
@@ -66,12 +67,9 @@ public class AppClientCtl {
     }
 
     @Data
-    public static class PatchRequest {
+    @Builder
+    public static class PatchResponse {
         private String clientSecret;
         private String clientId;
-
-        public PatchRequest() {
-
-        }
     }
 }

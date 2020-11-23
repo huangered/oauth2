@@ -6,7 +6,7 @@ import com.yih.auth.entity.AppGrantedAuthorityEntity;
 import com.yih.auth.entity.UserEntity;
 import com.yih.auth.repo.GrantedAuthorityRepo;
 import com.yih.auth.repo.UserRepo;
-import com.yih.auth.svc.UserService;
+import com.yih.auth.svc.LynxUserService;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class JpaUserServiceImpl implements UserService {
+public class JpaLynxUserServiceImpl implements LynxUserService {
     @Autowired
     private PasswordEncoder encoder;
 

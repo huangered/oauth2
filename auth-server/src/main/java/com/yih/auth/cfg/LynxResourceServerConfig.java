@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 @EnableResourceServer
-public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+public class LynxResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private TokenStore tokenStore;
 

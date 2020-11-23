@@ -1,6 +1,6 @@
 package com.yih.auth.svc.impl;
 
-import com.yih.auth.svc.UserService;
+import com.yih.auth.svc.LynxUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class JpaUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserService userService;
+    private LynxUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

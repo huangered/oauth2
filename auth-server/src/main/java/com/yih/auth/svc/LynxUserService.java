@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Optional;
 
-public interface UserService {
+public interface LynxUserService {
     Optional<UserDetails> findByUsername(String username);
 
     /**

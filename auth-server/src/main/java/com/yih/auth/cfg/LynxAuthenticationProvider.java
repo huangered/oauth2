@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CustomAuthenticationProvider implements AuthenticationProvider {
+public class LynxAuthenticationProvider implements AuthenticationProvider {
 
     @Autowired
     private UserDetailsService userDetailsService;

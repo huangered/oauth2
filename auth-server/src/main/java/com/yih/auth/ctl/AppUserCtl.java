@@ -1,7 +1,7 @@
 package com.yih.auth.ctl;
 
 import com.yih.auth.domain.user.AppUser;
-import com.yih.auth.svc.UserService;
+import com.yih.auth.svc.LynxUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class AppUserCtl {
     @Autowired
-    UserService userService;
+    LynxUserService userService;
 
     @ApiOperation("register new user")
     @PostMapping("/users")

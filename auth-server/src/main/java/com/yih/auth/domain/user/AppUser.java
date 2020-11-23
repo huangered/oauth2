@@ -2,7 +2,7 @@ package com.yih.auth.domain.user;
 
 import com.yih.auth.domain.oauth2.AppGrantedAuthority;
 import com.yih.auth.entity.UserEntity;
-import com.yih.auth.svc.UserService;
+import com.yih.auth.svc.LynxUserService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -26,7 +26,7 @@ public class AppUser implements UserDetails {
     private List<AppGrantedAuthority> authorities;
 
     @Autowired
-    private UserService userService;
+    private LynxUserService userService;
 
     public AppUser() {
 

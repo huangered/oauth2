@@ -13,10 +13,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 //@Order(1)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class LynxWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private CustomAuthenticationProvider customAuthenticationProvider;
+    private LynxAuthenticationProvider lynxAuthenticationProvider;
 
     @Override
     @Bean
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(customAuthenticationProvider);
+        auth.authenticationProvider(lynxAuthenticationProvider);
     }
 
     @Override

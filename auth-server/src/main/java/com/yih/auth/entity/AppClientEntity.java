@@ -15,6 +15,8 @@ public class AppClientEntity {
 
     private Long userId;
 
+    private String clientName;
+
     @Column(unique = true)
     private String clientId;
 
