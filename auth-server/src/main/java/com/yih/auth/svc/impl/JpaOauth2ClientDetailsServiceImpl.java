@@ -2,7 +2,7 @@ package com.yih.auth.svc.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.yih.auth.domain.oauth2.AppClient;
+import com.yih.auth.pojo.oauth2.AppClient;
 import com.yih.auth.entity.AppClientEntity;
 import com.yih.auth.mapper.LynxClientMapper;
 import com.yih.auth.repo.AppClientRepo;
@@ -61,15 +61,15 @@ public class JpaOauth2ClientDetailsServiceImpl implements ClientDetailsService, 
             entity.get().setClientId(UUID.randomUUID().toString());
             entity.get().setClientSecret(UUID.randomUUID().toString());
             AppClientEntity re = repo.save(entity.get());
-            return LynxClientMapper.instance.entityToDomain(re);
+            return LynxClientMapper.instance.entityToPojo(re);
         } else {
             throw new NoSuchClientException(clientName);
         }
     }
 
     @Override
-    public void removeClientDetails(Long userId, String clientId) throws NoSuchClientException {
-
+    public void removeClientDetails(Long userId, String clientName) throws NoSuchClientException {
+        repo.deleteByUserIdAndClientName(userId, clientName);
     }
 
     @Override

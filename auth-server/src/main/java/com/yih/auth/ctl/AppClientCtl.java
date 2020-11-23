@@ -1,57 +1,38 @@
 package com.yih.auth.ctl;
 
-import com.google.common.collect.Sets;
-import com.yih.auth.domain.oauth2.AppClient;
-import com.yih.auth.svc.LynxOauth2ClientService;
+import com.yih.auth.pojo.oauth2.AppClient;
+import com.yih.auth.domain.user.AppUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @Api(description = "the endpoint for Oauth2 client id", tags = "user")
 @RestController
 @RequestMapping("/api/v1")
 public class AppClientCtl {
-    @Autowired
-    LynxOauth2ClientService service;
-
-    @Autowired
-    PasswordEncoder encoder;
-
     @ApiOperation("create new Oauth2 client id")
     @PostMapping("/users/{userId}/appclients")
     public ResponseEntity<Boolean> create(@PathVariable Long userId,
                                           @RequestBody ClientRequest appClient) {
-        AppClient client = new AppClient();
-        client.setClientName(appClient.getName());
-        client.setRedirectUri(appClient.getUrl());
-//        client.setClientId(UUID.randomUUID().toString());
-//        client.setClientSecret(UUID.randomUUID().toString());
-        client.setClientId("test");
-        client.setClientSecret(encoder.encode("test"));
-        client.setScope(Sets.newHashSet("read"));
-        client.setDescription("test");
-        client.setAuthorizedGrantTypes(Sets.newHashSet("authorization_code", "password", "refresh_token"));
-        service.addClientDetails(userId, client);
-        return ResponseEntity.ok(Boolean.FALSE);
+        AppUser.findById(userId).addClient(appClient);
+
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 
     @PatchMapping("/users/{userId}/appclients/{clientName}")
     public ResponseEntity<PatchResponse> patchSecret(@PathVariable Long userId,
                                                      @PathVariable String clientName) {
-        AppClient client = service.updateClientSecret(userId, clientName);
-        return ResponseEntity.ok(PatchResponse.builder().clientId(client.getClientId()).clientSecret(client.getClientSecret()).build());
+        AppClient client = AppUser.findById(userId).updateClientSecret(clientName);
+        return ResponseEntity.ok(new PatchResponse(client.getClientId(), client.getClientSecret()));
     }
 
     @ApiOperation("remove new Oauth2 client id")
     @DeleteMapping("/users/{userId}/appclients")
     public ResponseEntity<Boolean> remove(@PathVariable Long userId,
-                                          @RequestParam String clientId) {
-        service.removeClientDetails(userId, clientId);
+                                          @RequestParam String clientName) {
+        AppUser.findById(userId).removeClientDetails(clientName);
         return ResponseEntity.ok(Boolean.FALSE);
     }
 
@@ -67,9 +48,16 @@ public class AppClientCtl {
     }
 
     @Data
-    @Builder
     public static class PatchResponse {
         private String clientSecret;
         private String clientId;
+
+        public PatchResponse() {
+        }
+
+        public PatchResponse(String clientSecret, String clientId) {
+            this.clientSecret = clientSecret;
+            this.clientId = clientId;
+        }
     }
 }

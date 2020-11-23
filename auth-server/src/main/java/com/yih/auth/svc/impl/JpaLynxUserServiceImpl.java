@@ -1,6 +1,6 @@
 package com.yih.auth.svc.impl;
 
-import com.yih.auth.domain.oauth2.AppScope;
+import com.yih.auth.pojo.oauth2.AppScope;
 import com.yih.auth.domain.user.AppUser;
 import com.yih.auth.entity.AppGrantedAuthorityEntity;
 import com.yih.auth.entity.UserEntity;

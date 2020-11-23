@@ -1,6 +1,6 @@
 package com.yih.auth.svc;
 
-import com.yih.auth.domain.oauth2.AppClient;
+import com.yih.auth.pojo.oauth2.AppClient;
 import org.springframework.security.oauth2.provider.ClientAlreadyExistsException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.NoSuchClientException;

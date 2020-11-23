@@ -24,10 +24,10 @@ import java.util.List;
 @EnableAuthorizationServer
 public class LynxAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
     @Autowired
     @Qualifier("JpaClientDetailsService")
-    ClientDetailsService jpaClientDetailService;
+    private ClientDetailsService jpaClientDetailService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -38,7 +38,7 @@ public class LynxAuthServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.authenticationManager(authenticationManager);
-        // for jwt
+        // 自定义 jwt
         TokenEnhancerChain chain = new TokenEnhancerChain();
         List<TokenEnhancer> enhancerList = new ArrayList<>();
         enhancerList.add(new LynxTokenEnhancer());
@@ -46,11 +46,13 @@ public class LynxAuthServerConfig extends AuthorizationServerConfigurerAdapter {
         chain.setTokenEnhancers(enhancerList);
         endpoints.tokenStore(tokenStore)
                 .tokenEnhancer(chain);
+        // 自定义approve界面
         endpoints.pathMapping("/oauth/confirm_access", "/custom/confirm_access");
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // 使用 jpa 数据库读取client信息
         clients.withClientDetails(jpaClientDetailService);
     }
 

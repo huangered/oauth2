@@ -9,4 +9,6 @@ public interface AppClientRepo extends JpaRepository<AppClientEntity, Long> {
 
     Optional<AppClientEntity> findByClientId(String clientId);
     Optional<AppClientEntity> findByUserIdAndClientName(Long userId, String clientName);
+
+    void deleteByUserIdAndClientName(Long userId, String clientName);
 }

@@ -1,4 +1,4 @@
-package com.yih.auth.domain.oauth2;
+package com.yih.auth.pojo.oauth2;
 
 import com.google.common.collect.Sets;
 import lombok.Data;
